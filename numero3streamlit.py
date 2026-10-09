@@ -122,14 +122,20 @@ if modo == "Dibujar número":
     )
 
     datos_canvas = None
-
-    if resultado_canvas is not None:
+    if resultado_canvas is None:
+        resumen_canvas = "st_canvas devolvió None"
+    else:
         try:
             datos_canvas = resultado_canvas.image_data
-        except (RuntimeError, AttributeError):
-            datos_canvas = None
+        except (RuntimeError, AttributeError) as error:
+            resumen_canvas = (
+                f"no se pudo leer image_data "
+                f"({type(error).__name__}: {error})"
+            )
+        else:
+            if datos_canvas is None:
+                resumen_canvas = "image_data llegó como None"
 
-    resumen_canvas = "el componente no entregó image_data"
     if datos_canvas is not None:
         datos_canvas = np.asarray(datos_canvas)
         if datos_canvas.ndim == 2:
