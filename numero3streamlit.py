@@ -130,8 +130,8 @@ if modo == "Dibujar número":
             datos_canvas = None
 
     if datos_canvas is not None:
-        # Comprobar si realmente hay píxeles dibujados
-        if datos_canvas.ndim == 3 and np.any(datos_canvas[:, :, 3] > 0):
+        # El trazo es blanco sobre negro; detectar sus píxeles visibles.
+        if datos_canvas.ndim == 3 and np.any(datos_canvas[:, :, :3] > 30):
             imagen_original = Image.fromarray(
                 datos_canvas.astype(np.uint8),
                 mode="RGBA"
