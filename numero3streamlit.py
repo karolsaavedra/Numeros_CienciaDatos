@@ -105,31 +105,38 @@ modo = st.radio(
 
 imagen_original = None
 
-if modo == "Dibujar número":
 
-    st.info("Dibuja un solo número dentro del cuadro negro.")
+if modo == "Dibujar número":
+    st.info("Dibuja un número del 1 al 9 dentro del cuadro negro.")
 
     resultado_canvas = st_canvas(
-        fill_color="rgba(255,255,255,0)",
+        fill_color="rgba(255, 255, 255, 0)",
         stroke_width=15,
         stroke_color="#FFFFFF",
         background_color="#000000",
         height=280,
         width=280,
         drawing_mode="freedraw",
-        key="lienzo_numeros"
+        key="lienzo_numeros",
+        update_streamlit=True
     )
 
-    try:
-        datos_canvas = resultado_canvas.image_data
-    except (RuntimeError, AttributeError):
-        datos_canvas = None
+    datos_canvas = None
+
+    if resultado_canvas is not None:
+        try:
+            datos_canvas = resultado_canvas.image_data
+        except (RuntimeError, AttributeError):
+            datos_canvas = None
 
     if datos_canvas is not None:
-        if np.any(datos_canvas[:, :, 3] > 0):
+        # Comprobar si realmente hay píxeles dibujados
+        if datos_canvas.ndim == 3 and np.any(datos_canvas[:, :, 3] > 0):
             imagen_original = Image.fromarray(
-                datos_canvas.astype(np.uint8)
+                datos_canvas.astype(np.uint8),
+                mode="RGBA"
             )
+            st.image(imagen_original, caption="Dibujo detectado", width=200)
 
 else:
     archivo = st.file_uploader(
@@ -141,6 +148,7 @@ else:
     if archivo is not None:
         imagen_original = Image.open(archivo).convert("RGB")
         st.image(imagen_original, caption="Imagen seleccionada", width=250)
+
 
 
 # --------------------------------------------------
