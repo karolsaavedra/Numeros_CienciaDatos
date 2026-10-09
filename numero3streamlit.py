@@ -129,23 +129,31 @@ if modo == "Dibujar número":
         except (RuntimeError, AttributeError):
             datos_canvas = None
 
+    resumen_canvas = "el componente no entregó image_data"
     if datos_canvas is not None:
         datos_canvas = np.asarray(datos_canvas)
-        if (
-            datos_canvas.ndim == 3
-            and datos_canvas.shape[2] >= 3
-            and np.any(datos_canvas[:, :, :3] > 30)
-        ):
-            st.session_state["imagen_dibujo"] = datos_canvas.astype(np.uint8)
+        if datos_canvas.ndim == 2:
+            hay_trazo = bool(np.any(datos_canvas > 30))
+        elif datos_canvas.ndim == 3 and datos_canvas.shape[2] >= 3:
+            hay_trazo = bool(np.any(datos_canvas[:, :, :3] > 30))
         else:
-            st.session_state.pop("imagen_dibujo", None)
+            hay_trazo = False
+
+        resumen_canvas = f"image_data={datos_canvas.shape}, trazo={hay_trazo}"
+        if hay_trazo:
+            st.session_state["imagen_dibujo"] = datos_canvas.astype(np.uint8)
 
     datos_dibujo = st.session_state.get("imagen_dibujo")
     if datos_dibujo is not None:
         imagen_original = Image.fromarray(datos_dibujo)
         st.image(imagen_original, caption="Dibujo detectado", width=200)
+    else:
+        st.info("Todavía no se recibió un trazo del lienzo.")
+
+    st.caption(f"Diagnóstico del lienzo: {resumen_canvas}")
 
 else:
+    st.session_state.pop("imagen_dibujo", None)
     archivo = st.file_uploader(
         "Selecciona una imagen PNG, JPG o JPEG",
         type=["png", "jpg", "jpeg"],
