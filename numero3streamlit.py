@@ -118,7 +118,8 @@ if modo == "Dibujar número":
         width=280,
         drawing_mode="freedraw",
         key="lienzo_numeros",
-        update_streamlit=True
+        update_streamlit=True,
+        return_image_data=True
     )
 
     datos_canvas = None
