@@ -125,11 +125,20 @@ if modo == "Dibujar número":
         key="lienzo_numeros"
     )
 
-    if resultado_canvas.image_data is not None:
-        if np.any(resultado_canvas.image_data[:, :, 3] > 0):
-            imagen_original = Image.fromarray(
-                resultado_canvas.image_data.astype(np.uint8)
-            )
+
+# Obtener el dibujo sin provocar un error si el lienzo está vacío
+try:
+    datos_canvas = resultado_canvas.image_data
+except RuntimeError:
+    datos_canvas = None
+
+if datos_canvas is not None:
+    # Comprobar si el usuario realmente dibujó algo
+    if np.any(datos_canvas[:, :, 3] > 0):
+        imagen_original = Image.fromarray(
+            datos_canvas.astype(np.uint8)
+        )
+
 
 else:
     archivo = st.file_uploader(
