@@ -130,13 +130,20 @@ if modo == "Dibujar número":
             datos_canvas = None
 
     if datos_canvas is not None:
-        # El trazo es blanco sobre negro; detectar sus píxeles visibles.
-        if datos_canvas.ndim == 3 and np.any(datos_canvas[:, :, :3] > 30):
-            imagen_original = Image.fromarray(
-                datos_canvas.astype(np.uint8),
-                mode="RGBA"
-            )
-            st.image(imagen_original, caption="Dibujo detectado", width=200)
+        datos_canvas = np.asarray(datos_canvas)
+        if (
+            datos_canvas.ndim == 3
+            and datos_canvas.shape[2] >= 3
+            and np.any(datos_canvas[:, :, :3] > 30)
+        ):
+            st.session_state["imagen_dibujo"] = datos_canvas.astype(np.uint8)
+        else:
+            st.session_state.pop("imagen_dibujo", None)
+
+    datos_dibujo = st.session_state.get("imagen_dibujo")
+    if datos_dibujo is not None:
+        imagen_original = Image.fromarray(datos_dibujo)
+        st.image(imagen_original, caption="Dibujo detectado", width=200)
 
 else:
     archivo = st.file_uploader(
