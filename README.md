@@ -7,10 +7,6 @@ Este proyecto consiste en desarrollar una aplicación web capaz de reconocer nú
 
 La aplicación permite dibujar un número directamente en la página web o cargar una imagen desde el computador. Posteriormente, el modelo seleccionado analiza la imagen y predice qué número representa, mostrando el resultado y su nivel de confianza.
 
-## Objetivo general
-
-Desarrollar una aplicación web para el reconocimiento de números escritos a mano mediante redes neuronales convolucionales, comparando dos arquitecturas diferentes.
-
 ## Tecnologías utilizadas
 
 - **Python:** lenguaje de programación utilizado para desarrollar el proyecto.
@@ -105,7 +101,7 @@ streamlit run numero3streamlit.py
 - La precisión puede variar según la calidad de la imagen, la forma del número y los datos utilizados durante el entrenamiento.
 - La aplicación está diseñada para reconocer números del 1 al 9.
 
-## 👩‍💻 Autora
+## Estudiante
 
 **Karol Stefany Saavedra Suárez**
 
