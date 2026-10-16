@@ -44,7 +44,7 @@ Ambos modelos reciben imágenes de 28 × 28 píxeles y clasifican los números d
 
 ## Aplicación web
 
-**Enlace de acceso:** [Detección de Números]((https://numeroscienciadatos-yeua6yrsg6jdbqpkjjszon.streamlit.app/))
+**Enlace de acceso:** [Detección de Números](https://numeroscienciadatos-yeua6yrsg6jdbqpkjjszon.streamlit.app/)
 
 La aplicación permite seleccionar un modelo, dibujar o cargar una imagen y consultar la predicción obtenida.
 
